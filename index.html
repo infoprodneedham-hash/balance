@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Architectural Interdependence: Overcoming the Zero-Sum Dilemma in Global Political Economy</title>
+  <!-- Tailwind CSS CDN for utility classes and layout -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Merriweather, Inter, and JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['Merriweather', 'Georgia', 'Cambria', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            academic: {
+              paper: '#FAF9F6',
+              border: '#E2DFD2',
+              crimson: '#8b0000',
+              navy: '#1a2a3a',
+              ink: '#1f2421',
+              muted: '#5a6265',
+              callout: '#f4f2ec'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom academic reading styles and micro-typography */
+    body {
+      color: #1f2421;
+      background-color: #f0ede6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .paper-sheet {
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
+    }
+
+    .academic-prose p {
+      margin-bottom: 1.35rem;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    .drop-cap::first-letter {
+      float: left;
+      font-size: 3.5rem;
+      line-height: 0.82;
+      padding-top: 4px;
+      padding-right: 10px;
+      padding-left: 2px;
+      font-weight: 700;
+      color: #1a2a3a;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .paper-sheet {
+        box-shadow: none !important;
+        border: none !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      @page {
+        margin: 2cm;
+      }
+      h2, h3 {
+        page-break-after: avoid;
+      }
+      .academic-prose p {
+        text-align: justify;
+        line-height: 1.5;
+      }
+    }
+  </style>
+</head>
+<body class="py-6 sm:py-10 px-3 sm:px-6 font-serif">
+
+  <!-- Top Utility Bar (Screen Only) -->
+  <aside aria-label="Reading Controls" class="no-print max-w-4xl mx-auto mb-6 bg-white/90 backdrop-blur-sm border border-neutral-300 rounded-xl px-4 py-3 shadow-sm flex flex-wrap items-center justify-between gap-3 text-xs font-sans text-neutral-700">
+    <div class="flex items-center gap-2">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-600"></span>
+      <span class="font-medium text-neutral-800">Peer-Reviewed Working Paper Series</span>
+      <span class="text-neutral-400">|</span>
+      <span class="text-neutral-500">ID: JIPE-WP-2026-089</span>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex items-center gap-2 sm:gap-3 flex-wrap">
+      <!-- Font Family Toggle -->
+      <button id="toggleFontBtn" onclick="toggleFontFamily()" class="px-2.5 py-1 rounded border border-neutral-300 hover:bg-neutral-100 transition-colors flex items-center gap-1.5 font-medium" title="Switch Font Style">
+        <svg class="w-3.5 h-3.5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+        <span id="fontLabel">Font: Serif</span>
+      </button>
+
+      <!-- Font Size Toggle -->
+      <div class="inline-flex rounded border border-neutral-300 bg-white p-0.5">
+        <button onclick="adjustFontSize(-1)" class="px-2 py-0.5 hover:bg-neutral-100 rounded text-neutral-700 font-semibold" title="Decrease font size">A-</button>
+        <button onclick="adjustFontSize(1)" class="px-2 py-0.5 hover:bg-neutral-100 rounded text-neutral-700 font-semibold border-l border-neutral-200" title="Increase font size">A+</button>
+      </div>
+
+      <!-- Copy Citation -->
+      <button onclick="copyCitation()" id="copyCiteBtn" class="px-2.5 py-1 rounded border border-neutral-300 hover:bg-neutral-100 transition-colors flex items-center gap-1.5 font-medium" title="Copy APA Citation">
+        <svg class="w-3.5 h-3.5 text-neutral-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+        <span>Cite</span>
+      </button>
+
+      <!-- Print Button -->
+      <button onclick="window.print()" class="px-3 py-1 bg-neutral-900 text-white rounded hover:bg-neutral-800 transition-colors flex items-center gap-1.5 font-medium shadow-sm">
+        <svg class="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4H7v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+        <span>Print / PDF</span>
+      </button>
+    </div>
+  </aside>
+
+  <!-- Notification Banner (Custom Message Box) -->
+  <div id="statusToast" class="no-print fixed bottom-5 right-5 bg-neutral-900 text-white px-4 py-2.5 rounded-lg text-xs font-sans shadow-lg transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none z-50 flex items-center gap-2">
+    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <span id="toastMsg">Citation copied to clipboard</span>
+  </div>
+
+  <!-- Main Document Container -->
+  <main id="paperRoot" class="paper-sheet max-w-4xl mx-auto bg-[#FAF9F6] border border-[#E2DFD2] rounded-xl sm:rounded-2xl p-6 sm:p-14 md:p-20 text-[#1f2421] transition-all">
+    
+    <!-- Journal Masthead Header -->
+    <header class="border-b-2 border-neutral-900 pb-8 mb-10 font-sans">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs uppercase tracking-wider text-neutral-500 font-semibold mb-4">
+        <span>Journal of International Political Economy & Global Systems</span>
+        <span>Vol. 42, No. 3, Autumn 2026, pp. 114–139</span>
+      </div>
+      <div class="text-xs text-neutral-400 mb-6">
+        <span>ISSN: 2471-8840 (Print) | ISSN: 2471-8859 (Online) &bull; https://doi.org/10.1080/jipe.2026.10429</span>
+      </div>
+
+      <!-- Title & Subtitle -->
+      <h1 class="font-serif text-2xl sm:text-4xl font-bold tracking-tight text-neutral-900 leading-tight mb-4">
+        Architectural Interdependence: Overcoming the Zero-Sum Dilemma in Global Political Economy
+      </h1>
+      <p class="font-sans text-sm sm:text-base text-neutral-600 font-normal italic mb-6">
+        Aligning Sovereign Incentives, Repeated Game Structures, and Distributed Equilibrium Under Concentrated State Leadership
+      </p>
+
+      <!-- Authors & Affiliations -->
+      <div class="pt-4 border-t border-neutral-200 grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-sans">
+        <div>
+          <p class="font-bold text-neutral-900 text-sm">Dr. Alistair Vance, Ph.D.</p>
+          <p class="text-neutral-600">Chair of Global Economic Architecture &amp; Governance</p>
+          <p class="text-neutral-500">Department of Politics &amp; International Studies, Cambridge University</p>
+        </div>
+        <div>
+          <p class="font-bold text-neutral-900 text-sm">Elena Rostova, M.Phil.</p>
+          <p class="text-neutral-600">Fellow in Game Theoretic Modeling &amp; Trade Dynamics</p>
+          <p class="text-neutral-500">Institute for Advanced Multilateral Strategies, Geneva</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Abstract & Keywords Callout Block -->
+    <section aria-label="Abstract" class="bg-[#F2EFE9] border-l-4 border-neutral-900 p-5 sm:p-7 rounded-r-lg mb-10 font-sans text-xs sm:text-sm leading-relaxed text-neutral-800">
+      <h2 class="font-bold uppercase tracking-wider text-xs text-neutral-900 mb-2">Abstract</h2>
+      <p class="italic text-neutral-700 mb-4">
+        A persistent puzzle of international political economy is the gap between universal recognition of global collective goods—longevity, climate stability, and mutually beneficial trade—and the recurrent descent of states into zero-sum mercantilism. Because sovereign states are steered by concentrated ruling coalitions whose political survival is tethered to short-term domestic constituencies, appeals to cosmopolitan altruism or universal human fraternity routinely collapse against the security dilemma. This paper demonstrates that overcoming this impasse requires an architectural re-engineering of state incentives grounded in repeated non-cooperative game theory. By extending the shadow of the future, establishing modular rather than asymmetrical interdependencies, connecting international reciprocity to domestic welfare functions, and anchoring cooperation around irreversible transboundary hazards, multilateral architectures can render defection self-defeating. Handshake arrangements endure not when leaders experience moral epiphany, but when institutional design aligns sovereign self-preservation with collective systemic balance.
+      </p>
+      <div class="pt-3 border-t border-neutral-300 text-xs flex flex-wrap gap-y-1 gap-x-4">
+        <div><strong class="text-neutral-900 font-semibold">Keywords:</strong> Interdependence, Repeated Games, Security Dilemma, Public Goods, Hegemonic Stability, Trade Policy</div>
+        <div><strong class="text-neutral-900 font-semibold">JEL Classifications:</strong> F02, F13, F53, C72, D74</div>
+      </div>
+    </section>
+
+    <!-- Article Body -->
+    <article class="academic-prose text-sm sm:text-base leading-relaxed sm:leading-[1.8] text-neutral-800">
+
+      <!-- Section 1 -->
+      <section class="mb-10">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mb-4 tracking-tight">
+          1. Introduction: The Paradox of Common Destiny
+        </h2>
+        <p class="drop-cap">
+          Every demographic, epidemiologic, and macroeconomic metric confirms that the long-term material prosperity of the human species is non-zero-sum. Cross-border capital liquidity, coordinated scientific discovery, frictionless logistics, and ecological stewardship generate compounding surpluses that dwarf the unilateral spoils of conquest or protectionist rent-seeking. Yet the daily conduct of international affairs remains stubbornly chained to competitive friction, tariff escalation, technological embargoes, and revanchist brinkmanship.
+        </p>
+        <p>
+          Idealist observers often diagnose this dissonance as an informational or moral deficit: if only ruling elites and national populations recognized their shared mortality and intertwined fortunes, rational cooperation would spontaneously follow. Such diagnoses overlook the structural mechanics of sovereign decision-making. States are not unitary philosophical minds; they are political apparatuses governed by narrow ruling elites whose tenure is governed by short election cadences, domestic coalition preservation, and an anarchic international system where no supra-national sovereign enforces contracts.
+        </p>
+        <p>
+          Under these parameters, giving a competitor an unhedged strategic advantage is viewed by domestic decision-makers not as visionary generosity, but as potential political and military negligence. Consequently, the central question of modern international political economy is not: <em>"How do we persuade humanity to desire universal prosperity?"</em> but rather: <strong>"How do we construct institutional and trade architectures so that narrow national self-interest is structurally incapable of realizing gains except through mutual equilibrium?"</strong>
+        </p>
+      </section>
+
+      <!-- Section 2 -->
+      <section class="mb-10">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mb-4 tracking-tight">
+          2. Theoretical Foundations: The Security Dilemma and Repeated Games
+        </h2>
+        <p>
+          The inability of rival powers to maintain cooperative handshakes is formalized in the classical Prisoner’s Dilemma and John Herz’s (1950) formulation of the <em>security dilemma</em>. In a single-shot interaction, defection is the dominant individual strategy: if Nation A cooperates while Nation B defects, Nation B extracts an asymmetric economic or strategic edge, leaving Nation A bearing the "sucker’s payoff." Aware of this vulnerability, Nation A preemptively defects, locking both into a sub-optimal Nash equilibrium characterized by reciprocal sanctions, defensive trade barriers, and military expenditure.
+        </p>
+
+        <!-- Academic Payoff Matrix Table -->
+        <div class="my-8 overflow-x-auto font-sans text-xs sm:text-sm">
+          <div class="text-neutral-500 font-semibold mb-2 uppercase text-[11px] tracking-wider text-center">
+            Table 1: Strategic Normal-Form Representation of the Inter-State Trade &amp; Security Dilemma
+          </div>
+          <table class="w-full border-collapse border border-neutral-300 bg-white shadow-sm text-center">
+            <thead>
+              <tr class="bg-neutral-100 border-b border-neutral-300">
+                <th class="p-3 border-r border-neutral-300 text-left text-neutral-700">Nation A \ Nation B</th>
+                <th class="p-3 border-r border-neutral-300 font-semibold text-neutral-900">Cooperate (Reciprocal Openness)</th>
+                <th class="p-3 font-semibold text-neutral-900">Defect (Unilateral Mercantilism)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr class="border-b border-neutral-200">
+                <td class="p-3 font-semibold border-r border-neutral-300 text-left bg-neutral-50">Cooperate (Reciprocal Openness)</td>
+                <td class="p-3 border-r border-neutral-300 bg-emerald-50/50">
+                  <span class="font-bold text-emerald-800">(R, R) = (+4, +4)</span><br>
+                  <span class="text-[11px] text-neutral-500 italic">Mutual Systemic Prosperity</span>
+                </td>
+                <td class="p-3 bg-red-50/40">
+                  <span class="font-bold text-red-700">(S, T) = (-3, +6)</span><br>
+                  <span class="text-[11px] text-neutral-500 italic">Sucker's Payoff vs. Free Rider</span>
+                </td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold border-r border-neutral-300 text-left bg-neutral-50">Defect (Unilateral Mercantilism)</td>
+                <td class="p-3 border-r border-neutral-300 bg-red-50/40">
+                  <span class="font-bold text-red-700">(T, S) = (+6, -3)</span><br>
+                  <span class="text-[11px] text-neutral-500 italic">Preemptive Advantage</span>
+                </td>
+                <td class="p-3 bg-neutral-100/70">
+                  <span class="font-bold text-neutral-800">(P, P) = (0, 0)</span><br>
+                  <span class="text-[11px] text-neutral-500 italic">Nash Equilibrium (Stagnant Standoff)</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="text-[11px] text-neutral-500 mt-2 text-left italic">
+            Where T (Temptation to defect) &gt; R (Reward for mutual cooperation) &gt; P (Punishment for mutual defection) &gt; S (Sucker's payoff). Mutual welfare requires transforming the payoff matrix so that the expected discounted value of future cooperation outweighs T &minus; R.
+          </p>
+        </div>
+
+        <p>
+          Robert Axelrod’s seminal findings in <em>The Evolution of Cooperation</em> (1984) established that cooperation can sustainably emerge in anarchic systems without a central government under one decisive condition: <strong>the shadow of the future must be sufficiently long</strong>. If states assign high value to ongoing, recurring transactions (represented mathematically by a high discount factor &delta;), the cumulative gains of sustained cooperation eclipse the one-time opportunistic reward of defection:
+        </p>
+
+        <!-- Blockquote Callout -->
+        <blockquote class="my-6 pl-5 border-l-2 border-academic-navy italic text-neutral-700 font-serif bg-white/60 p-4 rounded-r-md">
+          &ldquo;Mutual cooperation can be stable if the future is sufficiently important relative to the present. The foundation of cooperation is not really trust, but the durability of the relationship.&rdquo;
+          <footer class="mt-2 text-xs font-sans not-italic text-neutral-500 font-semibold">— Robert Axelrod, 1984, p. 110</footer>
+        </blockquote>
+
+        <p>
+          When sovereign states treat diplomacy as a series of isolated, single-turn transactions, defection becomes dominant. Conversely, when international systems bind interactions into indefinite iterations across overlapping arenas—trade, health regulations, airspace agreements, debt clearing—opportunism carries an immediate, multi-theatre penalty.
+        </p>
+      </section>
+
+      <!-- Section 3 -->
+      <section class="mb-10">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mb-4 tracking-tight">
+          3. Structural Interdependence as an Enforcement Mechanism
+        </h2>
+        <p>
+          Traditional liberalism posited that trade fosters goodwill (<em>doux-commerce</em> thesis). However, 21st-century political science demonstrates that mere exchange is insufficient: <em>asymmetric</em> trade invites weaponization (Farrell &amp; Newman, 2019). When one nation controls an exclusive chokepoint—be it advanced lithography tooling, rare earth refining, or SWIFT financial messaging—interdependence becomes a vector for coercion rather than mutual restraint.
+        </p>
+        <p>
+          To make mutual balance robust against sovereign temptation, interdependence must be engineered around <strong>modular, multi-directional reciprocity</strong>:
+        </p>
+
+        <ul class="list-disc pl-6 space-y-2 mb-6">
+          <li>
+            <strong>Bilateral Hostage Mechanics:</strong> Drawing upon Oliver Williamson’s transaction-cost economics, stable cross-border arrangements occur when both parties commit dedicated assets that lose value if the relationship breaks down. When domestic industries in rival nations are codependent, economic warfare inflicts direct reciprocal damage on the initiator’s domestic power base.
+          </li>
+          <li>
+            <strong>Universal Neutral Protocol Layers:</strong> Systems like maritime standard containerization (ISO), international civil aviation (ICAO), and fundamental packet routing (TCP/IP) persist through intense geopolitical conflicts because the cost of unilateral withdrawal exceeds any conceivable short-term leverage. Standardized infrastructural protocols operate below the threshold of national political vanity.
+          </li>
+          <li>
+            <strong>Decentralized Redundancy:</strong> Resilient agreements must avoid creating single-point vulnerabilities. When supply chains are distributed across multilateral consortia rather than concentrated in a single competitor’s borders, the unilateral incentive to weaponize access is rendered impotent.
+          </li>
+        </ul>
+      </section>
+
+      <!-- Section 4 -->
+      <section class="mb-10">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mb-4 tracking-tight">
+          4. Aligning Sovereign Incentives with Domestic Legitimacy
+        </h2>
+        <p>
+          A structural blind spot in cosmopolitan advocacy is the assumption that heads of state optimize for global welfare. In political reality, as demonstrated by Bueno de Mesquita et al. (2003) in the <em>Selectorate Theory</em> of governance, every leader—whether presiding over a liberal democracy or an autocratic regime—must retain the allegiance of a "winning coalition" to stay in power.
+        </p>
+        <p>
+          A treaty that benefits humanity at large but inflicts concentrated costs on a leader's core political base will be swiftly abandoned or actively subverted. Therefore, the architectural bridge between national self-interest and global balance requires converting diffuse international dividends into tangible domestic outcomes:
+        </p>
+
+        <!-- Two Column Framework Box -->
+        <div class="my-6 grid grid-cols-1 md:grid-cols-2 gap-4 font-sans text-xs sm:text-sm">
+          <div class="bg-white p-5 border border-neutral-200 rounded-lg shadow-sm">
+            <span class="inline-block px-2 py-0.5 bg-red-100 text-red-800 rounded font-bold uppercase text-[10px] mb-2">Failure Mode: Moral Altruism</span>
+            <h4 class="font-bold text-neutral-900 mb-2">The Abstract Treaty Dilemma</h4>
+            <p class="text-neutral-600 leading-normal">
+              Accords framed around shared planetary sacrifice often lead to acute domestic backlash. Local labor forces perceive themselves as paying the immediate economic cost while geopolitical rivals free-ride, fueling domestic protectionism and electoral revolt.
+            </p>
+          </div>
+          <div class="bg-white p-5 border border-neutral-200 rounded-lg shadow-sm">
+            <span class="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded font-bold uppercase text-[10px] mb-2">Viable Mode: Incentive Alignment</span>
+            <h4 class="font-bold text-neutral-900 mb-2">The Bread-and-Butter Dividend</h4>
+            <p class="text-neutral-600 leading-normal">
+              Agreements succeed when structured with tangible domestic dividends: targeted industrial offsets, direct cost-of-living reductions, cross-border technology licensing, and regional export access that directly reward the domestic winning coalition.
+            </p>
+          </div>
+        </div>
+
+        <p>
+          Diplomatic handshake arrangements become self-enforcing only when breaking the arrangement creates immediate domestic friction for the political class—manifested in inflation spikes, capital flight, or supply disruptions that directly erode regime stability.
+        </p>
+      </section>
+
+      <!-- Section 5 -->
+      <section class="mb-10">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mb-4 tracking-tight">
+          5. Transboundary Risks as Non-Zero-Sum Catalysts
+        </h2>
+        <p>
+          Throughout human history, bitter rivals have repeatedly suspended zero-sum competition when confronted by common-pool threats that defy national borders. As Elinor Ostrom (1990) established in her studies of common-pool resource governance, sustainable polycentric management arises when participants realize that unilateral exploitation results in total systemic collapse.
+        </p>
+        <p>
+          In the contemporary arena, four primary structural catalysts serve as natural forcing functions for non-zero-sum coordination:
+        </p>
+
+        <ol class="list-decimal pl-6 space-y-3 mb-6">
+          <li>
+            <strong>Financial Liquidity Systemic Contagion:</strong> The 2008 global financial crisis and the 2020 liquidity shocks proved that major economies cannot insulate their domestic banking balance sheets from foreign insolvency. The expansion of central bank currency swap lines between rival monetary authorities operates not as an act of charity, but as an act of domestic fireproofing.
+          </li>
+          <li>
+            <strong>Atmospheric and Ecological Thresholds:</strong> Ocean acidification, stratospheric depletion, and transboundary climatic shifts do not respect national boundaries. The Montreal Protocol (1987) succeeded because the scientific linkage between chlorofluorocarbons and global ultraviolet radiation posed a symmetric existential hazard to all participating nations.
+          </li>
+          <li>
+            <strong>Antimicrobial Resistance and Novel Pathogens:</strong> Pathogenic evolution renders unilateral quarantine insufficient. Global epidemiological surveillance networks function as early-warning sensor arrays where providing tools to other nations directly protects one’s own populace.
+          </li>
+          <li>
+            <strong>Orbital Debris and Orbital Commons:</strong> In low Earth orbit (LEO), the Kessler syndrome poses an absolute threshold: irresponsible anti-satellite testing or debris generation by one actor permanently impairs space-based communications for every state.
+          </li>
+        </ol>
+      </section>
+
+      <!-- Section 6: Conclusion -->
+      <section class="mb-12">
+        <h2 class="font-serif text-xl sm:text-2xl font-bold text-neutral-900 border-b border-neutral-200 pb-2 mb-4 tracking-tight">
+          6. Conclusion and Strategic Policy Implications
+        </h2>
+        <p>
+          The ambition of leading the human race to perceive its shared longevity and prosperity cannot rely on philosophical awakening or moral exhortation. Such expectations contradict the fundamental incentives of sovereign states and the political imperatives of their leaders.
+        </p>
+        <p>
+          Instead, progress requires pragmatic <strong>institutional engineering</strong>:
+        </p>
+
+        <div class="bg-neutral-50 p-6 border border-neutral-300 rounded-xl my-6 space-y-4 font-sans text-xs sm:text-sm">
+          <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold text-xs">1</span>
+            <p><strong class="text-neutral-900 font-semibold">Institutionalize Repeated Iteration:</strong> Transform bilateral negotiations into long-cycle, recurring multilateral frameworks that deliberately elongate the shadow of the future, penalizing short-term opportunistic defection.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold text-xs">2</span>
+            <p><strong class="text-neutral-900 font-semibold">Engineer Symmetrical Vulnerability:</strong> Avoid monopolistic supply dependencies; construct networked, modular supply webs that ensure any aggressive economic retaliation causes immediate domestic repercussion to the aggressor.</p>
+          </div>
+          <div class="flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 rounded-full bg-neutral-900 text-white flex items-center justify-center font-bold text-xs">3</span>
+            <p><strong class="text-neutral-900 font-semibold">Internalize the Peace Dividend:</strong> Formulate international pacts such that their benefits are visibly distributed to local domestic constituencies, protecting international agreements from domestic electoral resentment.</p>
+          </div>
+        </div>
+
+        <p>
+          When the global game is designed correctly, leaders do not need to abandon national self-interest to foster international peace. In a properly structured equilibrium, securing the welfare of one’s own nation will be attainable only by sustaining the stability of the entire system.
+        </p>
+      </section>
+
+      <!-- References Section -->
+      <section aria-label="References" class="pt-8 border-t-2 border-neutral-900 font-sans text-xs sm:text-sm text-neutral-700">
+        <h3 class="font-serif text-lg font-bold text-neutral-900 mb-6 tracking-tight">References</h3>
+        <div class="space-y-3.5 pl-6 -indent-6">
+          <p>
+            Axelrod, R. (1984). <em>The Evolution of Cooperation</em>. Basic Books.
+          </p>
+          <p>
+            Bueno de Mesquita, B., Smith, A., Siverson, R. M., &amp; Morrow, J. D. (2003). <em>The Logic of Political Survival</em>. MIT Press.
+          </p>
+          <p>
+            Farrell, H., &amp; Newman, A. L. (2019). Weaponized Interdependence: How Global Economic Networks Shape State Coercion. <em>International Security</em>, 44(1), 42–79. https://doi.org/10.1162/isec_a_00351
+          </p>
+          <p>
+            Herz, J. H. (1950). Idealist Internationalism and the Security Dilemma. <em>World Politics</em>, 2(2), 157–180. https://doi.org/10.2307/2009187
+          </p>
+          <p>
+            Keohane, R. O. (1984). <em>After Hegemony: Cooperation and Discord in the World Political Economy</em>. Princeton University Press.
+          </p>
+          <p>
+            Nye, J. S. (2004). <em>Soft Power: The Means to Success in World Politics</em>. PublicAffairs.
+          </p>
+          <p>
+            Ostrom, E. (1990). <em>Governing the Commons: The Evolution of Institutions for Collective Action</em>. Cambridge University Press.
+          </p>
+          <p>
+            Williamson, O. E. (1983). Credible Commitments: Using Hostages to Support Exchange. <em>The American Economic Review</em>, 73(4), 519–540.
+          </p>
+        </div>
+      </section>
+    </article>
+
+    <!-- Paper Footer & Provenance -->
+    <footer class="mt-14 pt-6 border-t border-neutral-300 font-sans text-xs text-neutral-500 flex flex-col sm:flex-row justify-between items-center gap-3">
+      <div class="flex items-center gap-2">
+        <span>&copy; 2026 The Authors. Open Access article under CC-BY-NC-ND 4.0.</span>
+      </div>
+      <div class="text-neutral-400">
+        Typeset in Merriweather &amp; Inter &bull; Oxford/Cambridge Academic Spec
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    // Adjust font size dynamically
+    let currentFontSizeIndex = 1;
+    const fontSizes = ['text-sm', 'text-base', 'text-lg'];
+    const proseElements = document.querySelector('.academic-prose');
+
+    function adjustFontSize(delta) {
+      currentFontSizeIndex = Math.max(0, Math.min(fontSizes.length - 1, currentFontSizeIndex + delta));
+      proseElements.classList.remove('text-sm', 'text-base', 'text-lg');
+      proseElements.classList.add(fontSizes[currentFontSizeIndex]);
+      showToast(`Font size adjusted`);
+    }
+
+    // Toggle between Serif and Sans-Serif reading body
+    let isSerif = true;
+    function toggleFontFamily() {
+      isSerif = !isSerif;
+      const paper = document.getElementById('paperRoot');
+      const fontLabel = document.getElementById('fontLabel');
+      
+      if (isSerif) {
+        paper.classList.remove('font-sans');
+        paper.classList.add('font-serif');
+        fontLabel.textContent = 'Font: Serif';
+      } else {
+        paper.classList.remove('font-serif');
+        paper.classList.add('font-sans');
+        fontLabel.textContent = 'Font: Sans';
+      }
+      showToast(`Switched to ${isSerif ? 'Serif' : 'Sans-Serif'} display`);
+    }
+
+    // Copy formatted citation to clipboard
+    function copyCitation() {
+      const citationText = "Vance, A., & Rostova, E. (2026). Architectural Interdependence: Overcoming the Zero-Sum Dilemma in Global Political Economy. Journal of International Political Economy & Global Systems, 42(3), 114–139. https://doi.org/10.1080/jipe.2026.10429";
+      
+      // Fallback copy execution for iFrames
+      const tempInput = document.createElement("textarea");
+      tempInput.value = citationText;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      try {
+        document.execCommand('copy');
+        showToast("Citation copied to clipboard (APA format)");
+      } catch (err) {
+        showToast("Failed to copy citation");
+      }
+      document.body.removeChild(tempInput);
+    }
+
+    // Toast Notification Display Helper
+    let toastTimeout;
+    function showToast(message) {
+      const toast = document.getElementById('statusToast');
+      const msg = document.getElementById('toastMsg');
+      msg.textContent = message;
+      
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 2600);
+    }
+  </script>
+</body>
+</html>
